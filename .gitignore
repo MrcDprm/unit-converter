@@ -1,0 +1,21 @@
+# Python derleme çıktıları
+__pycache__/
+*.pyc
+
+# PyInstaller ve Inno Setup çıktıları
+build/
+dist/
+installer/Output/
+
+# Sanal ortam
+venv/
+.venv/
+
+# Gizli bilgiler
+.env
+
+# Editör ve işletim sistemi dosyaları
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
