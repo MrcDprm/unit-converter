@@ -3,6 +3,7 @@ kullanıcı klasörüne tarihiyle kaydedilir. İnternet yoksa son kaydedilen kur
 
 Kurlar "1 USD kaç birim" biçimindedir: {"USD": 1, "TRY": 49.01, "EUR": 0.88, ...}.
 """
+import http.client
 import json
 import re
 import time
@@ -98,7 +99,7 @@ def get_rates(now=None, fetch=fetch_rates):
         return cached, "cached"
     try:
         result = fetch()
-    except (OSError, RatesError):  # bağlantı hataları ve zaman aşımı OSError'dan türer
+    except (OSError, http.client.HTTPException, RatesError):  # bağlantı kopması, zaman aşımı, yarım yanıt
         return (cached, "offline") if cached else (None, "unavailable")
     result["fetched_at"] = int(now)
     save_json(CACHE_FILE, to_cache(result, now))
