@@ -46,8 +46,6 @@ class ConverterApp:
         self.root = root
         root.report_callback_exception = self.on_unexpected_error
         self.set_icon()
-        root.geometry("1180x700")
-        root.minsize(1000, 600)
 
         self.settings = load_settings()
         self.colors = THEMES[self.settings["theme"]]
@@ -76,6 +74,7 @@ class ConverterApp:
         self.apply_theme()
         self.select_category(self.settings["category"])
         self.render_texts()
+        self.fit_window()
         self.load_rates()
         self.from_entry.focus_set()
     
@@ -198,6 +197,18 @@ class ConverterApp:
         self.root.bind("<F5>", lambda event: self.load_rates())
         self.root.bind("<Return>", lambda event: self.commit_history())
         self.root.bind("<Escape>", lambda event: self.clear_input())
+
+    def fit_window(self):
+        """Pencere boyutu ekran ölçeğine göre ayarlanır: %150 ölçekte yazılar büyür, pencere de büyümeli."""
+        self.root.update_idletasks()
+        scale = self.root.winfo_fpixels("1i") / 96
+        needed_width, needed_height = self.root.winfo_reqwidth(), self.root.winfo_reqheight()
+        width = min(max(int(1180 * scale), needed_width), self.root.winfo_screenwidth() - 40)
+        height = min(max(int(700 * scale), needed_height), self.root.winfo_screenheight() - 80)
+        left = (self.root.winfo_screenwidth() - width) // 2
+        top = max(0, (self.root.winfo_screenheight() - height) // 2 - 20)  # görev çubuğu için biraz yukarı
+        self.root.geometry(f"{width}x{height}+{left}+{top}")
+        self.root.minsize(min(needed_width, width), min(needed_height, height))
 
     def set_icon(self):
         try:
@@ -335,14 +346,16 @@ class ConverterApp:
         keys = self.keys()
         return sort_currencies(keys) if CATEGORIES[self.settings["category"]]["kind"] == "currency" else keys
 
+    def pick_units(self, category):
+        """Kategoride en son seçilen birim çifti; artık geçerli değilse varsayılan çift."""
+        keys = unit_keys(category, self.rates)
+        saved = self.settings["units"].get(category)
+        return saved if saved and all(key in keys for key in saved) else CATEGORIES[category]["default"]
+
     def select_category(self, category):
         self.commit_history()
         self.settings["category"] = category
-        keys = self.keys()
-        saved = self.settings["units"].get(category)
-        default = CATEGORIES[category]["default"]
-        pair = saved if saved and all(key in keys for key in saved) else default
-        self.from_key, self.to_key = pair
+        self.from_key, self.to_key = self.pick_units(category)
         self.set_text(self.from_var, "1")  # önceki kategorinin değeri yeni kategoride anlamsız olabilir
         self.source = "from"
         save_settings(self.settings)
@@ -547,11 +560,9 @@ class ConverterApp:
             self.rates_updated = result["updated"]
         self.render_rates_row()
         if CATEGORIES[self.settings["category"]]["kind"] == "currency":
-            if self.from_key in self.keys() and self.to_key in self.keys():
-                self.render_units()
-                self.recalculate()
-            else:
-                self.select_category("currency")
+            self.from_key, self.to_key = self.pick_units("currency")
+            self.render_units()
+            self.recalculate()
 
     def render_rates_row(self):
         is_currency = CATEGORIES[self.settings["category"]]["kind"] == "currency"
