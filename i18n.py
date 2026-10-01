@@ -32,7 +32,7 @@ MESSAGES = {
         "error_too_long": "Sayı çok uzun.",
         "error_out_of_range": "Sayı çok büyük ya da çok küçük.",
         "error_below_absolute_zero": "Mutlak sıfırın (−273,15 °C) altında sıcaklık olamaz.",
-        "error_no_rates": "Döviz kurları henüz yok.",
+        "error_no_rates": "",  # durum kur satırında zaten yazıyor
         "error_unknown_unit": "Bilinmeyen birim.",
         "unexpected_error": "Beklenmeyen bir hata oluştu. Uygulama çalışmaya devam ediyor.",
     },
@@ -66,7 +66,7 @@ MESSAGES = {
         "error_too_long": "The number is too long.",
         "error_out_of_range": "The number is too large or too small.",
         "error_below_absolute_zero": "Temperature cannot be below absolute zero (−273.15 °C).",
-        "error_no_rates": "Exchange rates are not available yet.",
+        "error_no_rates": "",  # durum kur satırında zaten yazıyor
         "error_unknown_unit": "Unknown unit.",
         "unexpected_error": "An unexpected error occurred. The app keeps running.",
     },
