@@ -146,13 +146,6 @@ Kurulum dosyası `installer/Output/` klasöründe oluşur.
 - **Yan etkisiz test.** Testler gerçek ayarlarıma değil geçici bir klasöre yazsın diye `unittest.mock` kullandım, ağ çağrısını da sahte bir fonksiyonla değiştirdim.
 - **Masaüstü uygulaması dağıtmak.** Uygulamayı PyInstaller ile paketledim, Inno Setup ile kurulum sihirbazı hazırladım ve kullanıcı verisini program klasörü yerine kullanıcı klasöründe tuttum.
 
-## Gelecek Planları
-
-- Favori birim çiftleri
-- Basınç, enerji ve yakıt tüketimi (L/100 km ↔ mpg)
-- Geçmiş döviz kuru grafikleri
-- macOS ve Linux paketleri
-
 ## Lisans
 
 [MIT](LICENSE) © 2026 Miraç Deprem

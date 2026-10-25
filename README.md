@@ -146,13 +146,6 @@ The installer is created in the `installer/Output/` folder.
 - **Testing without side effects.** I used `unittest.mock` so the tests write to a temporary folder instead of my real settings, and replaced the network call with a fake function.
 - **Distributing a desktop app.** I packaged the app with PyInstaller, built a setup wizard with Inno Setup, and kept user data in the user folder instead of the program folder.
 
-## Future Plans
-
-- Favourite unit pairs
-- Pressure, energy and fuel economy (L/100 km ↔ mpg)
-- Charts of past exchange rates
-- Packages for macOS and Linux
-
 ## License
 
 [MIT](LICENSE) © 2026 Miraç Deprem
